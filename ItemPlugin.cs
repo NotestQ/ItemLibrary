@@ -1,8 +1,12 @@
+using System;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
+using CessilCellsCeaChells.CeaChore;
 using HarmonyLib;
 using MyceliumNetworking;
 using UnityEngine;
+using Zorro.Core;
 
 namespace ItemLibrary
 {
@@ -10,6 +14,7 @@ namespace ItemLibrary
     [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
     [BepInDependency(MyceliumNetworking.MyPluginInfo.PLUGIN_GUID, BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("hyydsz-ShopUtils", BepInDependency.DependencyFlags.SoftDependency)] // Compatibility with ShopUtils, we *don't* have to load after it but just to make sure
+    [BepInDependency("Notest.ItemIDPlugin", BepInDependency.DependencyFlags.SoftDependency)]
     public class ItemPlugin : BaseUnityPlugin
     {
         public static ItemPlugin Instance { get; private set; } = null!;
@@ -21,11 +26,15 @@ namespace ItemLibrary
         {
             Logger = base.Logger;
             Instance = this;
-
+            
             MyceliumNetwork.RegisterNetworkObject(this, modID);
 
             MyceliumNetwork.LobbyEntered += ItemHandler.OnLobbyEntered;
             MyceliumNetwork.LobbyLeft += ItemHandler.OnLobbyLeft;
+
+            MyceliumNetwork.LobbyEntered += EntryHandler.OnLobbyEntered;
+            MyceliumNetwork.LobbyLeft += EntryHandler.OnLobbyLeft;
+            EntryHandler.GetEntryCount();
 
             Patch();
 

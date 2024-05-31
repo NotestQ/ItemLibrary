@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <!-- BepInEx Properties -->
     <PropertyGroup>
         <AssemblyName>Notest.ItemLibrary</AssemblyName>
         <Product>ItemLibrary</Product>
         <!-- Change to whatever version you're currently on. -->
-        <Version>0.1.0</Version>
+        <Version>0.3.0</Version>
     </PropertyGroup>
 
     <!-- Project Properties -->
@@ -38,6 +38,11 @@
         -->
         <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
     </PropertyGroup>
+    <ItemGroup>
+      <Compile Remove="Requires\**" />
+      <EmbeddedResource Remove="Requires\**" />
+      <None Remove="Requires\**" />
+    </ItemGroup>
 
     <!-- Primary Package References -->
     <ItemGroup>
@@ -45,9 +50,15 @@
         <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.*" PrivateAssets="all" />
         <PackageReference Include="BepInEx.Core" Version="5.*" PrivateAssets="all" />
         <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" PrivateAssets="all" />
+		<PackageReference Include="CessilCellsCeaChells" Version="0.2.0" />
+        <PackageReference Include="CessilCellsCeaChells.MSBuild" Version="0.2.0">
+	        <PrivateAssets>all</PrivateAssets>
+	        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="ContentWarning.GameLibs.Steam" Version="0.1.11-a-ngd.0" Publicize="true" MergeInto="true" />
         <PackageReference Include="RugbugRedfern.MyceliumNetworking.CW" Version="1.0.12" />
-        <PackageReference Include="UnityEngine.Modules" Version="2022.3.10" PrivateAssets="all" />
-        <PackageReference Include="ContentWarning.GameLibs.Steam" Version="*-*" Publicize="true" PrivateAssets="all" />
+        <PackageReference Include="ShopUtils" Version="1.1.4" Publicize="true" PrivateAssets="all" />
+        <PackageReference Include="UnityEngine.Modules" Version="2022.3.10" PrivateAssets="all" MergeInto="true" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
@@ -55,6 +66,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Patches\" />
+      <ProjectReference Include="Requires\Notest.ItemLibrary.Requires.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Notest.ConfigSync">
+        <HintPath>$(CW_References)..\..\BepInEx\plugins\Notest.ConfigSync.dll</HintPath>
+      </Reference>
+      <Reference Include="Notest.ItemIDPlugin">
+        <HintPath>$(CW_References)..\..\BepInEx\plugins\Notest.ItemIDPlugin.dll</HintPath>
+      </Reference>
+      <Reference Include="Notest.ItemLibrary.Requires" MergeFrom="true">
+        <HintPath>Requires\bin\Debug\netstandard2.1\Notest.ItemLibrary.Requires.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>
