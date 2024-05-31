@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CessilCellsCeaChells" Version="0.2.0" />
+    <PackageReference Include="ContentWarning.GameLibs.Steam" Version="0.1.11-a-ngd.0" />
+  </ItemGroup>
+
+</Project>
